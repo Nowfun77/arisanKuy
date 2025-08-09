@@ -21,7 +21,7 @@ export const OperatorView: React.FC<OperatorViewProps> = ({
 
   const getModeDisplay = () => {
     switch (mode) {
-      case 'lobby': return { title: 'Welcome to Game Night!', subtitle: 'Ready to start the fun?' };
+      case 'lobby': return { title: 'Welcome to ArisanKuy!', subtitle: 'Sudah siapkah anda untuk bersenang-senang ?' };
       case 'karaoke': return { title: '🎤 Karaoke Time!', subtitle: 'Sing your heart out!' };
       case 'guessLyrics': return { title: '🎵 Guess the Lyrics!', subtitle: 'Listen and guess the song!' };
       case 'guessImage': return { title: '🖼️ Guess the Picture!', subtitle: 'What do you see?' };
@@ -40,7 +40,7 @@ export const OperatorView: React.FC<OperatorViewProps> = ({
       <div className="fixed top-4 right-4 bg-black/50 backdrop-blur-md rounded-lg p-4 border border-white/20 z-50 max-w-sm">
         <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
           <Play className="w-4 h-4" />
-          Operator Controls
+          Operator Controls admin
         </h3>
         
         {/* Game Mode Buttons */}
