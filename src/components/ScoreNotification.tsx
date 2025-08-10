@@ -1,91 +1,100 @@
 import React, { useEffect, useState } from 'react';
-import { Trophy, Star, Zap, Music, ImageIcon } from 'lucide-react';
+import { Star, CheckCircle, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 
 interface ScoreNotificationProps {
-  participantName: string;
+  show?: boolean;
   points: number;
+  participantName: string;
   reason: string;
-  gameType: string;
-  onComplete: () => void;
+  onClose: () => void;
 }
 
 export const ScoreNotification: React.FC<ScoreNotificationProps> = ({
-  participantName,
+  show,
   points,
+  participantName,
   reason,
-  gameType,
-  onComplete
+  onClose,
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [visible, setVisible] = useState(show);
 
   useEffect(() => {
-    setIsVisible(true);
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-      setTimeout(onComplete, 500); // Wait for exit animation
-    }, 2500);
-
-    return () => clearTimeout(timer);
-  }, [onComplete]);
-
-  const getIcon = () => {
-    if (points >= 10) return <Trophy className="w-8 h-8" />;
-    if (points >= 5) return <Star className="w-8 h-8" />;
-    return <Zap className="w-8 h-8" />;
-  };
-
-  const getGameIcon = () => {
-    switch (gameType) {
-      case 'karaoke': return '🎤';
-      case 'guessLyrics': return <Music className="w-6 h-6" />;
-      case 'guessImage': return <ImageIcon className="w-6 h-6" />;
-      default: return '🎮';
+    setVisible(show);
+    if (show) {
+      const timer = setTimeout(() => {
+        setVisible(false);
+        onClose();
+      }, 2500);
+      return () => clearTimeout(timer);
     }
-  };
+  }, [show, onClose]);
 
-  const getColor = () => {
-    if (points > 0) {
-      switch (gameType) {
-        case 'karaoke': return 'from-pink-500 to-rose-600';
-        case 'guessLyrics': return 'from-green-500 to-emerald-600';
-        case 'guessImage': return 'from-purple-500 to-violet-600';
-        default: return 'from-blue-500 to-cyan-600';
-      }
-    }
-    return 'from-red-500 to-rose-600';
-  };
-
-  const getGameName = () => {
-    switch (gameType) {
-      case 'karaoke': return 'Karaoke';
-      case 'guessLyrics': return 'Tebak Lagu';
-      case 'guessImage': return 'Tebak Gambar';
-      default: return 'Game';
-    }
-  };
+  if (!visible) return null;
 
   return (
-    <div className={`fixed top-8 right-8 z-50 transition-all duration-500 ${
-      isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'
-    }`}>
-      <div className={`bg-gradient-to-r ${getColor()} p-6 rounded-lg shadow-2xl border-2 border-white/20 min-w-80`}>
-        <div className="flex items-center gap-4">
-          <div className="text-white">
-            {getIcon()}
-          </div>
-          <div className="flex-1 text-white">
-            <div className="font-bold text-lg">{participantName}</div>
-            <div className="text-sm opacity-90">{reason}</div>
-            <div className="flex items-center gap-2 text-xs opacity-75 mt-1">
-              {getGameIcon()}
-              <span>{getGameName()}</span>
-            </div>
-          </div>
-          <div className="text-3xl font-bold text-white">
-            {points > 0 ? '+' : ''}{points}
-          </div>
+    <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+      <div
+        className={`
+          bg-gradient-to-br from-yellow-400 via-pink-400 to-purple-500
+          text-white px-16 py-10 rounded-3xl shadow-2xl border-4 border-white/80
+          flex flex-col items-center gap-4
+          animate-score-pop
+          pointer-events-auto
+        `}
+        style={{
+          minWidth: 480,
+          maxWidth: '95vw',
+          fontFamily: 'Comic Sans MS, Comic Sans, cursive, sans-serif',
+        }}
+      >
+        <div className="flex items-center gap-6 text-6xl font-extrabold drop-shadow-lg">
+          <Star className="text-yellow-300 animate-spin-slow" size={60} />
+          <span
+            className={points > 0 ? 'text-green-700' : 'text-red-700'}
+            style={{ fontSize: 80, lineHeight: 1 }}
+          >
+            {points > 0 ? `+${points}` : points}
+          </span>
+          <Star className="text-yellow-300 animate-spin-slow-rev" size={60} />
         </div>
+        <div className="flex items-center gap-2 text-3xl font-bold mt-2">
+          {points > 0 ? (
+            <ArrowUpCircle className="text-green-700 animate-bounce" size={40} />
+          ) : (
+            <ArrowDownCircle className="text-red-700 animate-bounce" size={40} />
+          )}
+          <span>{participantName}</span>
+        </div>
+        <div className="text-xl italic">{reason}</div>
+        <CheckCircle className="mt-2 text-white/80 animate-pulse" size={40} />
       </div>
+      {/* Animasi background blur */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-[-1]" />
+      <style>
+        {`
+        @keyframes score-pop {
+          0% { transform: scale(0.7) rotate(-10deg); opacity: 0; }
+          60% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+          80% { transform: scale(0.95) rotate(-2deg);}
+          100% { transform: scale(1) rotate(0deg);}
+        }
+        .animate-score-pop {
+          animation: score-pop 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+        }
+        .animate-spin-slow {
+          animation: spin 2.5s linear infinite;
+        }
+        .animate-spin-slow-rev {
+          animation: spin-rev 2.5s linear infinite;
+        }
+        @keyframes spin {
+          100% { transform: rotate(360deg);}
+        }
+        @keyframes spin-rev {
+          100% { transform: rotate(-360deg);}
+        }
+        `}
+      </style>
     </div>
   );
 };

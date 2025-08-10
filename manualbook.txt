@@ -1,0 +1,42 @@
+Manual Book : 
+
+fungsi operator control -> di dalamnya ada fitur lobby, games (tebak lagu, karoke, tebak gambar) skor (games skor & final scorer) , reset game, finalize game dan fullscreen
+
+fungsi lobby : sebagai ruang atau wadah untuk background menu 
+fungsi tebak lagu, karoke, dan tebak gambar : sebagai wadah games nya 
+fungsi games skor : untuk menampilkan skor tiap games 
+fungsi final scores : untuk menampilkan skor akhir dan akumulasi dari tiap games
+
+fungsi reset games : untuk mereset games (memulai dari awal) 
+fungsi finalize : untuk menarik data dari games score ke final score untuk di akumulasi nilainya 
+
+fungsi fullscreen : untuk membuka screen menjadi full 
+
+-- penggunaan aplikasi ini : 
+
+ada dua ui/layar satu untuk operator dan satu lagi untuk admin, bagian operator sebagai layar untuk ditampilkan ke peserta jadi butuh laptop yang stand by untuk menu ini , satu lagi sebagai admin untuk mengontrol layar yang ada di menu operator . 
+
+-- pembagian tugas : 
+
+butuh dua orang untuk mengaplikasikan aplikasi ini, 
+1. satu orang mengendalikan operator control (menu di admin) 
+2. satu orang lagi mengendalikan peserta/team yang akan bertanding beserta skor mereka (menu admin).
+
+-- tugas operator control(simulasi 1 babak games) : 
+* sebelum layar di extend admin control harus mengklik tombol fullscreen
+
+1. ketika awal memulai game ia harus berada di lobby , maka admin harus mengklik menu lobby.
+2. ketika games pertama dimulai maka ia harus mengklik menu tebak lagu 
+3. ketika admin skor sudah selesai menginput nilai untuk tiap team maka admin control harus mengklik menu games score untuk menampilkan leaderboard , agar peserta dan team bisa melihat nilai yang mereka dapat. 
+4. lalu setelah games 1 babak ini selesai, maka admin control harus kembali mengklik menu lobby, kemudian mengklik finalize score untuk memindahkan nilai dan mengakumulasi nilai akhir nanti yang akan tampil di menu final scrorer. 
+5. dan alur ini akan dimulai dari dari no 1 ketika pindah games berikutnya
+
+-- tugas admin skoring(simulasi 1 babak games) : 
+
+1. admin skor menambahkan team (minimal 3 team) 
+2. admin skor bisa menghapus juga apabila ada kesalahan nama 
+3. pada tampilan di table skor peserta ada nama team, skor games saat ini dan skor final yang terus di akumulasi tiap games 
+4. inputan poin berfungsi untuk admin skor menginputkan nilai yang dibutuhkan , disampingnya ada inputan alasan untuk menampilkan penilaian pribadi.
+5. setelah poin dan alasan di input maka admin skor harus mengklik tombol update agar nilai bisa ter input. 
+
+
